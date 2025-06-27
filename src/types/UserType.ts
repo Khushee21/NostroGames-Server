@@ -6,6 +6,6 @@ export interface IUser extends Document {
     name: string;
     emailVerified: Boolean;
     createdAt: Date;
-    refreshToken: string[];
+    refreshTokens: string[];
     updatedAt: Date;
 }

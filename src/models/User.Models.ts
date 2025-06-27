@@ -7,7 +7,7 @@ const UserSchema = new Schema<IUser>({
     password: { type: String, required: true },
     name: { type: String, required: true },
     emailVerified: { type: Boolean, default: false },
-    refreshToken: { type: [String], default: [] },
+    refreshTokens: { type: [String], default: [] },
 }, {
     timestamps: true
 }

@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { connectDB } from './utils/db';
-import logger from './middleware/logger';
 import AuthRouter from './routes/Auth.routes';
+import { sendSuccess, sendError } from './utils/apiResponse';
 
 dotenv.config();
 
@@ -29,19 +29,18 @@ async function bootstrap() {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
-    //LOGGING
-    app.use(logger)
+
 
     //ROUTES
 
     app.get('/', (req, res) => {
-        res.send({ message: 'Nostrogame server is running!' });
+        sendSuccess(res, { message: 'Nostrogame server is running! ' })
     })
     app.use('/Auth', AuthRouter);
 
-    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-        console.log(err);
-        res.status(500).send({ error: 'Something went wrong' });
+    app.use((err: any, _req: Request, res: Response) => {
+        console.log('Global err', err);
+        sendError(res, 'Internal server erro', 500, err);
     })
 
     //start listening
