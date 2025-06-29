@@ -20,6 +20,6 @@ router.post('/logout', logout);
 
 //SCOREBOARD
 router.post("/submit", isAuthenticated, submitScore);
-router.get("/leaderboard/:gameId", getScoreBoard);
+router.get("/scoreboard/:gameId", getScoreBoard);
 
 export default router;
