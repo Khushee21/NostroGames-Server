@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { connectDB } from './utils/db';
-import AuthRouter from './routes/Auth.routes';
+import AuthRouter from './routes/All.routes';
 import { sendSuccess, sendError } from './utils/apiResponse';
 
 dotenv.config();
@@ -36,7 +36,7 @@ async function bootstrap() {
     app.get('/', (req, res) => {
         sendSuccess(res, { message: 'Nostrogame server is running! ' })
     })
-    app.use('/Auth', AuthRouter);
+    app.use('/Game', AuthRouter);
 
     app.use((err: any, _req: Request, res: Response) => {
         console.log('Global err', err);

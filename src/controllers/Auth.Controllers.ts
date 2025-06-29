@@ -3,10 +3,9 @@ import bcrypt from 'bcrypt';
 import { UserModel } from "../models/User.Models";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 import { signAccessToken, signRefreshAccess, verifyRefreshToken } from "../utils/jwt";
-import { Types } from "mongoose";
 
 
-//3. Sign in
+//1. Sign up
 const signup: RequestHandler = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -39,7 +38,7 @@ const signup: RequestHandler = async (req, res, next) => {
     }
 };
 
-//4. Sign up
+//2. Sign in
 const login: RequestHandler = async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -49,7 +48,7 @@ const login: RequestHandler = async (req, res, next) => {
         const match = await bcrypt.compare(password, user.password);
         if (!match) return sendError(res, "Invalid password !", 401);
 
-        const payload = { userId: (user._id as Types.ObjectId).toString(), email: user.email };
+        const payload = { userId: user._id.toString(), email: user.email };
         const accessToken = signAccessToken(payload);
         const refreshToken = signRefreshAccess(payload);
 
@@ -67,7 +66,7 @@ const login: RequestHandler = async (req, res, next) => {
     }
 };
 
-//5. refreshTokenHandler 
+//3. refreshTokenHandler 
 const refreshTokenHandler: RequestHandler = async (req, res, next) => {
     const { refreshToken } = req.body;
     try {
@@ -98,7 +97,7 @@ const refreshTokenHandler: RequestHandler = async (req, res, next) => {
 };
 
 
-//6. Logout route
+//4. Logout route
 const logout: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const { refreshToken } = req.body;
     try {
